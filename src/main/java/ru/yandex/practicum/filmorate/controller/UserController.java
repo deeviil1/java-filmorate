@@ -15,13 +15,13 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/users")
-public class UserController{
+public class UserController {
 
     public final Map<Long, User> users = new HashMap<>();
     public Long nextId = 1L;
 
     @PostMapping
-    public User createUser(@Valid @RequestBody User user){
+    public User createUser(@Valid @RequestBody User user) {
         log.info("Добавление пользователя");
 
 if (user.getLogin().contains(" ")) {
@@ -40,7 +40,7 @@ if (user.getName() == null || user.getName().isBlank()) {
     }
 
     @PutMapping
-    public User updateUser(@Valid @RequestBody User newUser){
+    public User updateUser(@Valid @RequestBody User newUser) {
         log.info("Обновление пользователя");
 
         if (newUser.getId() == null) {
@@ -69,7 +69,7 @@ if (user.getName() == null || user.getName().isBlank()) {
 
 
     @GetMapping
-    public Collection<User> getAllUser(){
+    public Collection<User> getAllUser() {
         log.info("Список пользователе");
         return users.values();
     }

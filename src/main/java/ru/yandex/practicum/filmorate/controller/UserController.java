@@ -24,11 +24,11 @@ public class UserController{
     public User createUser(@Valid @RequestBody User user){
         log.info("Добавление пользователя");
 
-if (user.getLogin().contains(" ")){
+if (user.getLogin().contains(" ")) {
     log.error("Ошибка добавления");
     throw new ValidationException("Логин не может содержать пробелы");
 }
-if (user.getName() == null || user.getName().isBlank()){
+if (user.getName() == null || user.getName().isBlank()) {
     log.debug("Имя пользователя не указано — устанавливаем равным логину: {}", user.getLogin());
     user.setName(user.getLogin());
         }
@@ -43,22 +43,22 @@ if (user.getName() == null || user.getName().isBlank()){
     public User updateUser(@Valid @RequestBody User newUser){
         log.info("Обновление пользователя");
 
-        if (newUser.getId() == null){
+        if (newUser.getId() == null) {
             log.error("ID не может быть null");
             throw new ValidationException("Id не может быть null");
         }
 
-        if (!users.containsKey(newUser.getId())){
+        if (!users.containsKey(newUser.getId())) {
             log.error("Пользователь с ID {} не найден", newUser.getId());
             throw new NotFoundException("Пользователь с ID " + newUser.getId() + " не найден");
         }
 
-        if (!newUser.getEmail().contains("@")){
+        if (!newUser.getEmail().contains("@")) {
             log.error("Email не содержит @");
             throw new ValidationException("Email должен содержать @");
         }
 
-        if (newUser.getName() == null || newUser.getName().isBlank()){
+        if (newUser.getName() == null || newUser.getName().isBlank()) {
             log.debug("Имя пользователя не указано — устанавливаем равным логину: {}", newUser.getLogin());
             newUser.setName(newUser.getLogin());
         }

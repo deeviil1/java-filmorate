@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = MinReleaseDateValidator.class)
 public @interface MinReleaseDate {
-    String message() default "Дата релиза должна быть не раньше 28.12.1895";
+    String message() default "Дата релиза должна быть не раньше 28-12-1895";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
     String min() default "1895-12-28";

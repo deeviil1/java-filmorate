@@ -11,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class FilmControllerTest {
-  private FilmController filmController = new FilmController();
+  private final FilmController filmController = new FilmController();
 
     Film film0 = Film.builder()
-            .id(Long.valueOf(23))
+            .id(23L)
             .name("film0")
             .description("some desc0")
             .releaseDate(LocalDate.of(2022, 12, 28))
-            .duration(Integer.valueOf(120))
+            .duration(120)
             .build();
 
     @Test
@@ -26,14 +26,14 @@ public class FilmControllerTest {
         try {
             filmController.getAllFilms();
         } catch (NotFoundException e) {
-            assertEquals(e.getMessage(), "Список фильмов пуст");
+            assertEquals("Список фильмов пуст", e.getMessage());
         }
     }
 
     @Test
     public void testFindAllMethodWithFilledMap() throws Exception {
         filmController.createFilm(film0);
-        assertEquals(filmController.getAllFilms().size(), 1);
+        assertEquals(1, filmController.getAllFilms().size());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class FilmControllerTest {
         try {
             filmController.createFilm(film0);
         } catch (ValidationException e) {
-            assertEquals(e.getMessage(), "Описание не может быть пустым");
+            assertEquals("Описание не может быть пустым", e.getMessage());
         }
     }
 
@@ -59,17 +59,17 @@ public class FilmControllerTest {
         try {
             filmController.createFilm(film0);
         } catch (ValidationException e) {
-            assertEquals(e.getMessage(), "Продолжительность фильма должна быть указана");
+            assertEquals("Продолжительность фильма должна быть указана", e.getMessage());
         }
     }
 
     @Test
     public void testCreateMethodWithNegativeDuration() throws Exception {
-        film0.setDuration(Integer.valueOf(-120));
+        film0.setDuration(-120);
         try {
             filmController.createFilm(film0);
         } catch (ValidationException e) {
-            assertEquals(e.getMessage(), "Продолжительность фильма должна быть положительным числом");
+            assertEquals("Продолжительность фильма должна быть положительным числом", e.getMessage());
         }
     }
 
@@ -90,7 +90,7 @@ public class FilmControllerTest {
         try {
             filmController.updateFilm(filmToUpdate);
         } catch (ValidationException e) {
-            assertEquals(e.getMessage(), "Дата релиза не может быть изменена");
+            assertEquals("Дата релиза не может быть изменена", e.getMessage());
         }
     }
 
@@ -100,18 +100,18 @@ public class FilmControllerTest {
         Film film1 = (film0);
         film1.setDescription("other desc");
         filmController.updateFilm(film1);
-        assertEquals(film1.getDescription(), "other desc");
+        assertEquals("other desc", film1.getDescription());
     }
 
     @Test
     public void testUpdateMethodWithWrongId() throws Exception {
         filmController.createFilm(film0);
         Film film1 = (film0);
-        film1.setId(Long.valueOf(44));
+        film1.setId(44L);
         try {
             filmController.updateFilm(film1);
         } catch (NotFoundException e) {
-            assertEquals(e.getMessage(), "Фильм с ID 44 не найден");
+            assertEquals("Фильм с ID 44 не найден", e.getMessage());
         }
     }
 }

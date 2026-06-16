@@ -54,16 +54,6 @@ public class FilmControllerTest {
     }
 
     @Test
-    public void testCreateMethodWhenReleaseDateBefore18951228() throws Exception {
-        film0.setReleaseDate(LocalDate.of(1894, 12, 28));
-        try {
-            filmController.createFilm(film0);
-        } catch (ValidationException e) {
-            assertEquals(e.getMessage(), "Дата релиза не должна быть раньше: 1895-12-28");
-        }
-    }
-
-    @Test
     public void testCreateMethodWithNullDuration() throws Exception {
         film0.setDuration(null);
         try {

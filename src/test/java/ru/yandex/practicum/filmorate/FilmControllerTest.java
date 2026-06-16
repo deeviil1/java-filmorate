@@ -10,10 +10,11 @@ import ru.yandex.practicum.filmorate.model.Film;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class FilmControllerTest {
-    FilmController filmController = new FilmController();
+  private FilmController filmController = new FilmController();
 
     Film film0 = Film.builder()
             .id(Long.valueOf(23))
@@ -85,17 +86,6 @@ public class FilmControllerTest {
         }
     }
 
-    @Test
-    public void testUpdateMethodWithNullId() throws Exception {
-        filmController.createFilm(film0);
-        film0.setId(null);
-        try {
-            filmController.updateFilm(film0);
-        } catch (ValidationException e) {
-            assertEquals(e.getMessage(), "id фильма должен быть указан");
-        }
-
-    }
 
     @Test
     public void testUpdateMethodWithOtherReleaseDate() throws Exception {

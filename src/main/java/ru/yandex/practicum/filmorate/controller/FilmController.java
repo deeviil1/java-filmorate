@@ -18,7 +18,7 @@ public class FilmController {
 
     private final Map<Long, Film> films = new HashMap<>();
     private Long nextId = 1L;
-    private static final LocalDate MIN_RELEASE_DATE = LocalDate.of(1895, 12, 28);
+
 
     @GetMapping
     public Collection<Film> getAllFilms() {
@@ -30,12 +30,6 @@ public class FilmController {
     public Film createFilm(@Valid @RequestBody Film film) {
         log.info("Добавление фильма фильма");
 
-        if (film.getReleaseDate().isBefore(MIN_RELEASE_DATE)) {
-            log.error("Ошибка даты релиза");
-            throw new ValidationException("Дата релиза не должна быть раньше: " + MIN_RELEASE_DATE);
-        }
-
-
         film.setId(nextId++);
         films.put(film.getId(), film);
         return film;
@@ -44,20 +38,9 @@ public class FilmController {
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film newFilm) {
         log.info("Обновление фильма");
-
-        if (newFilm.getId() == null) {
-            log.error("Ошибка обновления");
-            throw new ValidationException("id фильма должен быть указан");
-
-        }
         if (!films.containsKey(newFilm.getId())) {
             log.error("Ошибка обновления");
             throw new NotFoundException("Фильм с ID " + newFilm.getId() + " не найден");
-        }
-
-        if (newFilm.getReleaseDate().isBefore(MIN_RELEASE_DATE)) {
-            log.error("Ошибка даты релиза");
-            throw new ValidationException("Дата релиза не должна быть раньше: " + MIN_RELEASE_DATE);
         }
 
         if (newFilm.getDuration() != null && newFilm.getDuration() < 0) {
@@ -77,8 +60,3 @@ public class FilmController {
         return oldFilm;
     }
 }
-
-
-
-
-

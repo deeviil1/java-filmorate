@@ -13,20 +13,20 @@ import java.time.LocalDate;
 @Builder
 public class User {
 
-    Long id;
+    private Long id;
 
     @Email
     @NonNull
-    String email;
+    private String email;
 
     @NonNull
     @NotBlank
-    String login;
+    private String login;
 
-    String name;
+     private String name;
 
 
     @PastOrPresent
-    LocalDate birthday;
+    private LocalDate birthday;
 
 }

@@ -22,6 +22,7 @@ public class Film {
     private String name;
 
     @Size(max = 200, message = "Описание не должно превышать 200 символов")
+    @NonNull
     private String description;
 
     @PastOrPresent(message = "Дата релиза не может быть в будущем")

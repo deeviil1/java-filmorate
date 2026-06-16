@@ -77,10 +77,18 @@ public class FilmControllerTest {
     @Test
     public void testUpdateMethodWithOtherReleaseDate() throws Exception {
         filmController.createFilm(film0);
-        Film film1 = film0;
-        film1.setReleaseDate(LocalDate.of(2022, 12, 21));
+
+
+        Film filmToUpdate = Film.builder()
+                .id(film0.getId())
+                .name(film0.getName())
+                .description(film0.getDescription())
+                .releaseDate(LocalDate.of(2022, 12, 21))
+                .duration(film0.getDuration())
+                .build();
+
         try {
-            filmController.updateFilm(film1);
+            filmController.updateFilm(filmToUpdate);
         } catch (ValidationException e) {
             assertEquals(e.getMessage(), "Дата релиза не может быть изменена");
         }

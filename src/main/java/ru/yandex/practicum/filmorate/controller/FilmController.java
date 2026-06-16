@@ -20,7 +20,11 @@ public class FilmController {
     @GetMapping
     public Collection<Film> getAllFilms() {
         log.info("Список фильмов получен");
+        if (films.isEmpty()){
+            throw new NotFoundException("Список фильмов пуст");
+        }
         return films.values();
+
     }
 
     @PostMapping
@@ -38,11 +42,6 @@ public class FilmController {
         if (!films.containsKey(newFilm.getId())) {
             log.error("Ошибка обновления");
             throw new NotFoundException("Фильм с ID " + newFilm.getId() + " не найден");
-        }
-
-        if (newFilm.getDuration() != null && newFilm.getDuration() < 0) {
-            log.error("Длительность фильма не может быть отрицательной");
-            throw new ValidationException("Длительность фильма должна быть положительным числом");
         }
 
         Film oldFilm = films.get(newFilm.getId());

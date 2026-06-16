@@ -19,7 +19,6 @@ public class MinReleaseDateValidator implements ConstraintValidator<MinReleaseDa
         if (value == null) {
             return true;
         }
-
         return !value.isBefore(minDate);
     }
 }

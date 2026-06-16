@@ -10,7 +10,6 @@ public class MinReleaseDateValidator implements ConstraintValidator<MinReleaseDa
 
     @Override
     public void initialize(MinReleaseDate constraintAnnotation) {
-        
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.minDate = LocalDate.parse(constraintAnnotation.min(), formatter);
     }

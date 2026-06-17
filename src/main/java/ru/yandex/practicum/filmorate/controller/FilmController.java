@@ -9,7 +9,7 @@ import java.util.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/film")
+@RequestMapping("/films")
 public class FilmController {
 
     private final Map<Long, Film> films = new HashMap<>();
@@ -19,9 +19,7 @@ public class FilmController {
     @GetMapping
     public Collection<Film> getAllFilms() {
         log.info("Список фильмов получен");
-        if (films.isEmpty()) {
-            throw new NotFoundException("Список фильмов пуст");
-        }
+
         return films.values();
 
     }

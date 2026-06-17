@@ -19,7 +19,7 @@ public class FilmController {
     @GetMapping
     public Collection<Film> getAllFilms() {
         log.info("Список фильмов получен");
-        if (films.isEmpty()){
+        if (films.isEmpty()) {
             throw new NotFoundException("Список фильмов пуст");
         }
         return films.values();

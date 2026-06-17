@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.controller.FilmController;
@@ -12,14 +13,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class FilmControllerTest {
   private final FilmController filmController = new FilmController();
+  private Film film0;
 
-    Film film0 = Film.builder()
-            .id(23L)
-            .name("film0")
-            .description("some desc0")
-            .releaseDate(LocalDate.of(2022, 12, 28))
-            .duration(120)
-            .build();
+      @BeforeEach
+    void setUp() {
+          film0 = Film.builder()
+                  .id(23L)
+                  .name("film0")
+                  .description("some desc0")
+                  .releaseDate(LocalDate.of(2022, 12, 28))
+                  .duration(120)
+                  .build();
+      }
 
     @Test
     public void testFindAllMethodWithEmptyFilmsMap() throws Exception {

@@ -19,8 +19,8 @@ public class FilmControllerTest {
     void setUp() {
           film = Film.builder()
                   .id(23L)
-                  .name("film0")
-                  .description("some desc0")
+                  .name("film")
+                  .description("some desc")
                   .releaseDate(LocalDate.of(2022, 12, 28))
                   .duration(120)
                   .build();

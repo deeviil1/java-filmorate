@@ -10,7 +10,7 @@ import java.util.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/films")
+@RequestMapping("/film")
 public class FilmController {
 
     private final Map<Long, Film> films = new HashMap<>();
@@ -39,6 +39,7 @@ public class FilmController {
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film newFilm) {
         log.info("Обновление фильма");
+
         if (!films.containsKey(newFilm.getId())) {
             log.error("Ошибка обновления");
             throw new NotFoundException("Фильм с ID " + newFilm.getId() + " не найден");

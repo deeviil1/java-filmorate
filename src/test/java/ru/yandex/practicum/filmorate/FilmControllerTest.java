@@ -12,19 +12,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class FilmControllerTest {
-  private final FilmController filmController = new FilmController();
-  private Film film;
+    private final FilmController filmController = new FilmController();
+    private Film film;
 
-      @BeforeEach
+    @BeforeEach
     void setUp() {
-          film = Film.builder()
-                  .id(23L)
-                  .name("film")
-                  .description("some desc")
-                  .releaseDate(LocalDate.of(2022, 12, 28))
-                  .duration(120)
-                  .build();
-      }
+        film = Film.builder()
+                .id(23L)
+                .name("film")
+                .description("some desc")
+                .releaseDate(LocalDate.of(2022, 12, 28))
+                .duration(120)
+                .build();
+    }
 
     @Test
     public void testFindAllMethodWithEmptyFilmsMap() throws Exception {

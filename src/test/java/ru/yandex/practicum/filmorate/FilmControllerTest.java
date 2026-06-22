@@ -57,9 +57,13 @@ public class FilmControllerTest {
             assertEquals("Описание не может быть пустым", e.getMessage());
         }
     }
+
     @Test
     public void testCreateMethodWithTooLongDescription() throws Exception {
-        String tooLongDescription = "Описание фильма, которое явно превышает допустимый лимит символов для данного поля и составляет более 200 символов, например, этот текст можно продолжить для достижения необходимой длины.";
+        String tooLongDescription = "Описание фильма, " +
+                "которое явно превышает допустимый лимит " +
+                "символов для данного поля и составляет более 200 символов, " +
+                "например, этот текст можно продолжить для достижения необходимой длины.";
         film.setDescription(tooLongDescription);
 
         try {

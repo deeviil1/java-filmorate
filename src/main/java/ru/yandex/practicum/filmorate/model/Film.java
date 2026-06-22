@@ -23,7 +23,7 @@ public class Film {
 
 
     @NotNull
-    @Size
+    @Size(max = 200)
     private String description;
 
     @MinReleaseDate

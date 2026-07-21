@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Data
 @Builder
-public class User{
+public class User {
 
     private Long id;
 

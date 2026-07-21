@@ -8,22 +8,23 @@ import ru.yandex.practicum.filmorate.model.User;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
+
 @Slf4j
 @Component
-public class InMemoryUserStorage implements UserStorage{
+public class InMemoryUserStorage implements UserStorage {
 
     private final Map<Long, User> users = new HashMap<>();
     private long nextId = 1L;
 
     @Override
-    public User addUser(User user){
+    public User addUser(User user) {
         log.info("Добавление пользователя");
 
-        if (user.getLogin().contains(" ")){
+        if (user.getLogin().contains(" ")) {
             log.error("Ошибка добавления");
             throw new ValidationException("Логин не может содержать пробелы");
         }
-        if (user.getName() == null || user.getName().isBlank()){
+        if (user.getName() == null || user.getName().isBlank()) {
             log.debug("Имя пользователя не указано — устанавливаем равным логину: {}", user.getLogin());
             user.setName(user.getLogin());
         }
@@ -33,38 +34,38 @@ public class InMemoryUserStorage implements UserStorage{
     }
 
     @Override
-    public User deleteUser(Long userId){
-        if (userId == null){
+    public User deleteUser(Long userId) {
+        if (userId == null) {
             throw new IllegalArgumentException("ID пользователя не может быть null");
         }
 
         User removedUser = users.remove(userId);
-        if (removedUser == null){
+        if (removedUser == null) {
             throw new NotFoundException("Пользователь с id: " + userId + " не найден");
         }
         return removedUser;
     }
 
     @Override
-    public User updateUser(User newUser){
+    public User updateUser(User newUser) {
         log.info("Обновление пользователя");
 
-        if (newUser.getId() == null){
+        if (newUser.getId() == null) {
             log.error("ID не может быть null");
             throw new ValidationException("Id не может быть null");
         }
 
-        if (!users.containsKey(newUser.getId())){
+        if (!users.containsKey(newUser.getId())) {
             log.error("Пользователь с ID {} не найден", newUser.getId());
             throw new NotFoundException("Пользователь с ID " + newUser.getId() + " не найден");
         }
 
-        if (!newUser.getEmail().contains("@")){
+        if (!newUser.getEmail().contains("@")) {
             log.error("Email не содержит @");
             throw new ValidationException("Email должен содержать @");
         }
 
-        if (newUser.getName() == null || newUser.getName().isBlank()){
+        if (newUser.getName() == null || newUser.getName().isBlank()) {
             log.debug("Имя пользователя не указано — устанавливаем равным логину: {}", newUser.getLogin());
             newUser.setName(newUser.getLogin());
         }
@@ -74,7 +75,7 @@ public class InMemoryUserStorage implements UserStorage{
     }
 
     @Override
-    public User getUser(Long userId){
+    public User getUser(Long userId) {
         if (userId == null) {
             throw new IllegalArgumentException("ID пользователя не может быть null");
         }
@@ -87,7 +88,7 @@ public class InMemoryUserStorage implements UserStorage{
     }
 
     @Override
-    public Collection<User> getAllUsers(){
+    public Collection<User> getAllUsers() {
         log.info("Список пользователе");
         return new ArrayList<>(users.values());
     }

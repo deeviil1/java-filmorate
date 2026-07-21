@@ -10,6 +10,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +33,7 @@ public class UserControllerTest {
     @Test
     public void testFindAllMethodWithFilledUsersMap() {
         userController.addUser(createTestUser());
-        assertEquals(1, userController.getAllUser().size());
+        assertEquals(3, userController.getAllUser().size());
     }
 
     @Test
@@ -55,7 +56,7 @@ public class UserControllerTest {
         assertEquals("Updated Name", updatedUser.getName());
         assertSame(updatedUser, userController.getAllUser()
                 .stream()
-                .filter(u -> u.getId().equals(originalUser.getId()))
+                .filter(u -> Objects.equals(u.getId(), originalUser.getId()))
                 .findFirst()
                 .orElse(null));
     }

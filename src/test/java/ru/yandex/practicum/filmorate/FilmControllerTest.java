@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class FilmControllerTest {
-    private final FilmController filmController = new FilmController();
+    private FilmController filmController;
     private Film film;
 
     @BeforeEach
@@ -100,7 +100,6 @@ public class FilmControllerTest {
 
 
         Film filmToUpdate = Film.builder()
-                .id(film.getId())
                 .name(film.getName())
                 .description(film.getDescription())
                 .releaseDate(LocalDate.of(2022, 12, 21))

@@ -13,7 +13,7 @@ import java.time.LocalDate;
  */
 @Data
 @Builder
-public class Film {
+public class Film{
 
     private Long id;
 

@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -25,9 +24,9 @@ public class FilmController {
         return filmService.addFilm(film);
     }
 
-    @PutMapping("/{id}")
-    public void updateFilm(@Valid @RequestBody Film newFilm) {
-        filmService.updateFilm(newFilm);
+    @PutMapping
+    public Film updateFilm(@Valid @RequestBody Film newFilm) {
+        return filmService.updateFilm(newFilm);
     }
 
     @GetMapping("/{id}")
@@ -49,5 +48,4 @@ public class FilmController {
     public Collection<Film> getTopFilms(@RequestParam(defaultValue = "10") int count) {
         return filmService.getTopFilms(count);
     }
-
 }

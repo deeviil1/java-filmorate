@@ -74,7 +74,9 @@ public class UserService {
         Set<Long> userFriends = friendList.get(userId);
         Set<Long> friendFriends = friendList.get(friendId);
 
-        userFriends.remove(friendId);
+        if (userFriends != null) {
+            userFriends.remove(friendId);
+        }
         if (friendFriends != null) {
             friendFriends.remove(userId);
         }

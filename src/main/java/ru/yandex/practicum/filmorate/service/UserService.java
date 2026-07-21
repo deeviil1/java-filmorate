@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
@@ -47,6 +48,13 @@ public class UserService {
             throw new ValidationException("Пользователь не может добавить самого себя в друзья.");
         }
 
+        if (userStorage.getUser(userId) == null) {
+            throw new NotFoundException("Пользователь с ID " + userId + " не найден.");
+        }
+        if (userStorage.getUser(friendId) == null) {
+            throw new NotFoundException("Пользователь с ID " + friendId + " не найден.");
+        }
+
         Set<Long> userFriends = friendList.computeIfAbsent(userId, k -> new HashSet<>());
         Set<Long> friendFriends = friendList.computeIfAbsent(friendId, k -> new HashSet<>());
 
@@ -55,16 +63,27 @@ public class UserService {
     }
 
     public void removeFriend(Long userId, Long friendId) {
+
+        if (userStorage.getUser(userId) == null) {
+            throw new NotFoundException("Пользователь с ID " + userId + " не найден.");
+        }
+        if (userStorage.getUser(friendId) == null) {
+            throw new NotFoundException("Пользователь с ID " + friendId + " не найден.");
+        }
+
         Set<Long> userFriends = friendList.get(userId);
         Set<Long> friendFriends = friendList.get(friendId);
 
-        if (userFriends != null) {
-            userFriends.remove(friendId);
+        if (userFriends == null || !userFriends.contains(friendId)) {
+            throw new NotFoundException("Пользователи не состоят в друзьях.");
         }
+
+        userFriends.remove(friendId);
         if (friendFriends != null) {
             friendFriends.remove(userId);
         }
     }
+
 
     public Collection<User> getFriends(Long userId) {
         Set<Long> friendIds = friendList.getOrDefault(userId, Collections.emptySet());

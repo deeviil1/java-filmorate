@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
@@ -33,7 +34,7 @@ public class FilmService {
     }
 
     public Film getFilm(Long filmId) {
-       return filmStorage.getFilm(filmId);
+        return filmStorage.getFilm(filmId);
     }
 
     public Collection<Film> getAllFilm() {
@@ -41,22 +42,35 @@ public class FilmService {
     }
 
     public void addFilmLike(Long filmId, Long userId) {
-        filmStorage.getFilm(filmId);
-        userStorage.getUser(userId);
 
+        if (filmStorage.getFilm(filmId) == null) {
+            throw new NotFoundException("Фильм с ID " + filmId + " не найден");
+        }
+
+        if (userStorage.getUser(userId) == null) {
+            throw new NotFoundException("Пользователь с ID " + userId + " не найден");
+        }
         filmsLike.computeIfAbsent(filmId, k -> new HashSet<>()).add(userId);
     }
 
+
     public void deleteLike(Long filmId, Long userId) {
-        filmStorage.getFilm(filmId);
-        userStorage.getUser(userId);
+
+        if (filmStorage.getFilm(filmId) == null) {
+            throw new NotFoundException("Фильм с ID " + filmId + " не найден");
+        }
+
+        if (userStorage.getUser(userId) == null) {
+            throw new NotFoundException("Пользователь с ID " + userId + " не найден");
+        }
 
         Set<Long> likedUsers = filmsLike.get(filmId);
-        if (likedUsers != null) {
-            likedUsers.remove(userId);
-        } else {
-            throw new ru.yandex.practicum.filmorate.exception.NotFoundException("Лайк от пользователя не найден");
+
+        if (likedUsers == null || !likedUsers.contains(userId)) {
+            throw new NotFoundException("Лайк от пользователя с ID " + userId + " для фильма " + filmId + " не найден");
         }
+
+        likedUsers.remove(userId);
     }
 
     public Collection<Film> getTopFilms(int count) {

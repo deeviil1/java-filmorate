@@ -74,10 +74,6 @@ public class UserService {
         Set<Long> userFriends = friendList.get(userId);
         Set<Long> friendFriends = friendList.get(friendId);
 
-        if (userFriends == null || !userFriends.contains(friendId)) {
-            throw new NotFoundException("Пользователи не состоят в друзьях.");
-        }
-
         userFriends.remove(friendId);
         if (friendFriends != null) {
             friendFriends.remove(userId);
@@ -86,6 +82,10 @@ public class UserService {
 
 
     public Collection<User> getFriends(Long userId) {
+        if (userStorage.getUser(userId) == null) {
+            throw new NotFoundException("Пользователь с ID " + userId + " не найден.");
+        }
+
         Set<Long> friendIds = friendList.getOrDefault(userId, Collections.emptySet());
 
         return friendIds.stream()
@@ -94,6 +94,13 @@ public class UserService {
     }
 
     public Collection<User> getCommonFriends(Long userId, Long otherId) {
+        if (userStorage.getUser(userId) == null) {
+            throw new NotFoundException("Пользователь с ID " + userId + " не найден.");
+        }
+        if (userStorage.getUser(otherId) == null) {
+            throw new NotFoundException("Пользователь с ID " + otherId + " не найден.");
+        }
+
         Set<Long> userFriends = friendList.getOrDefault(userId, Collections.emptySet());
         Set<Long> otherFriends = friendList.getOrDefault(otherId, Collections.emptySet());
 

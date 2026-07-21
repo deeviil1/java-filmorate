@@ -18,25 +18,25 @@ public class UserService {
     }
 
     public User addUser(User user) {
-      return  userStorage.addUser(user);
+        return userStorage.addUser(user);
     }
-     public User deleteUser(Long userId) {
-        return userStorage.deleteUser(userId);
-     }
 
-     public User updateUser(User newUser) {
+    public User deleteUser(Long userId) {
+        return userStorage.deleteUser(userId);
+    }
+
+    public User updateUser(User newUser) {
 
         return userStorage.updateUser(newUser);
-     }
+    }
 
-     public User getUser(Long userId) {
+    public User getUser(Long userId) {
         return userStorage.getUser(userId);
-     }
+    }
 
-     public Collection<User> getAllUser() {
+    public Collection<User> getAllUser() {
         return new ArrayList<>(userStorage.getAllUsers());
-     }
-
+    }
 
     public Map<Long, Set<Long>> findAllFriendsList() {
         return new HashMap<>(friendList);
@@ -54,7 +54,6 @@ public class UserService {
         friendFriends.add(userId);
     }
 
-
     public void removeFriend(Long userId, Long friendId) {
         Set<Long> userFriends = friendList.get(userId);
         Set<Long> friendFriends = friendList.get(friendId);
@@ -66,6 +65,7 @@ public class UserService {
             friendFriends.remove(userId);
         }
     }
+
     public Collection<User> getFriends(Long userId) {
         Set<Long> friendIds = friendList.getOrDefault(userId, Collections.emptySet());
 
@@ -73,18 +73,16 @@ public class UserService {
                 .map(userStorage::getUser)
                 .collect(Collectors.toList());
     }
+
     public Collection<User> getCommonFriends(Long userId, Long otherId) {
         Set<Long> userFriends = friendList.getOrDefault(userId, Collections.emptySet());
         Set<Long> otherFriends = friendList.getOrDefault(otherId, Collections.emptySet());
 
-
         Set<Long> commonFriendIds = new HashSet<>(userFriends);
         commonFriendIds.retainAll(otherFriends);
-
 
         return commonFriendIds.stream()
                 .map(userStorage::getUser)
                 .collect(Collectors.toList());
     }
-
 }

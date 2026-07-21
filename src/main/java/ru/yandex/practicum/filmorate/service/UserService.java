@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class UserService implements UserServiceInterface{
     private final UserStorage userStorage;
     private final Map<Long, Set<Long>> friendList = new HashMap<>();
 
@@ -18,31 +18,38 @@ public class UserService {
         this.userStorage = userStorage;
     }
 
+    @Override
     public User addUser(User user) {
         return userStorage.addUser(user);
     }
 
+    @Override
     public User deleteUser(Long userId) {
         return userStorage.deleteUser(userId);
     }
 
+    @Override
     public User updateUser(User newUser) {
 
         return userStorage.updateUser(newUser);
     }
 
+    @Override
     public User getUser(Long userId) {
         return userStorage.getUser(userId);
     }
 
+    @Override
     public Collection<User> getAllUser() {
         return new ArrayList<>(userStorage.getAllUsers());
     }
 
+    @Override
     public Map<Long, Set<Long>> findAllFriendsList() {
         return new HashMap<>(friendList);
     }
 
+    @Override
     public void addFriend(Long userId, Long friendId) {
         if (userId.equals(friendId)) {
             throw new ValidationException("Пользователь не может добавить самого себя в друзья.");
@@ -62,6 +69,7 @@ public class UserService {
         friendFriends.add(userId);
     }
 
+    @Override
     public void removeFriend(Long userId, Long friendId) {
 
         if (userStorage.getUser(userId) == null) {
@@ -82,7 +90,7 @@ public class UserService {
         }
     }
 
-
+    @Override
     public Collection<User> getFriends(Long userId) {
         if (userStorage.getUser(userId) == null) {
             throw new NotFoundException("Пользователь с ID " + userId + " не найден.");
@@ -95,6 +103,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public Collection<User> getCommonFriends(Long userId, Long otherId) {
         if (userStorage.getUser(userId) == null) {
             throw new NotFoundException("Пользователь с ID " + userId + " не найден.");

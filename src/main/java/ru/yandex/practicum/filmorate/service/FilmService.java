@@ -10,9 +10,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class FilmService {
+public class FilmService implements FilmServiceInterface{
 
-    Map<Long, Set<Long>> filmsLike = new HashMap<>();
+    private final Map<Long, Set<Long>> filmsLike = new HashMap<>();
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
 
@@ -21,26 +21,32 @@ public class FilmService {
         this.userStorage = userStorage;
     }
 
+    @Override
     public Film addFilm(Film film) {
         return filmStorage.addFilm(film);
     }
 
+    @Override
     public Film deleteFilm(Long filmId) {
         return filmStorage.deleteFilm(filmId);
     }
 
+    @Override
     public Film updateFilm(Film film) {
         return filmStorage.updateFilm(film);
     }
 
+    @Override
     public Film getFilm(Long filmId) {
         return filmStorage.getFilm(filmId);
     }
 
+    @Override
     public Collection<Film> getAllFilm() {
         return filmStorage.getAllFilms();
     }
 
+    @Override
     public void addFilmLike(Long filmId, Long userId) {
 
         if (filmStorage.getFilm(filmId) == null) {
@@ -53,7 +59,7 @@ public class FilmService {
         filmsLike.computeIfAbsent(filmId, k -> new HashSet<>()).add(userId);
     }
 
-
+    @Override
     public void deleteLike(Long filmId, Long userId) {
 
         if (filmStorage.getFilm(filmId) == null) {
@@ -73,6 +79,7 @@ public class FilmService {
         likedUsers.remove(userId);
     }
 
+    @Override
     public Collection<Film> getTopFilms(int count) {
         return filmStorage.getAllFilms().stream()
                 .sorted((f1, f2) -> {

@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class FilmService implements FilmServiceInterface{
+public class FilmService implements FilmServiceInterface {
 
     private final Map<Long, Set<Long>> filmsLike = new HashMap<>();
     private final FilmStorage filmStorage;

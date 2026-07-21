@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService implements UserServiceInterface{
+public class UserService implements UserServiceInterface {
     private final UserStorage userStorage;
     private final Map<Long, Set<Long>> friendList = new HashMap<>();
 

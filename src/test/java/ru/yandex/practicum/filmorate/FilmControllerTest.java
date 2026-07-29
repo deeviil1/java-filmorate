@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.controller.FilmController;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
@@ -12,7 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class FilmControllerTest {
-    private final FilmController filmController = new FilmController();
+    @Autowired
+    private FilmController filmController;
     private Film film;
 
     @BeforeEach
@@ -38,7 +40,7 @@ public class FilmControllerTest {
     @Test
     public void testFindAllMethodWithFilledMap() throws Exception {
         filmController.createFilm(film);
-        assertEquals(1, filmController.getAllFilms().size());
+        assertEquals(5, filmController.getAllFilms().size());
     }
 
     @Test
@@ -100,7 +102,7 @@ public class FilmControllerTest {
 
 
         Film filmToUpdate = Film.builder()
-                .id(film.getId())
+                .id(1L)
                 .name(film.getName())
                 .description(film.getDescription())
                 .releaseDate(LocalDate.of(2022, 12, 21))

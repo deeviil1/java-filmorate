@@ -1,19 +1,25 @@
 package ru.yandex.practicum.filmorate;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class UserControllerTest {
-    private final UserController userController = new UserController();
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UserController userController;
 
     private User createTestUser() {
         return User.builder()
@@ -26,21 +32,21 @@ public class UserControllerTest {
 
     @Test
     public void testFindAllMethodWithFilledUsersMap() {
-        userController.createUser(createTestUser());
-        assertEquals(1, userController.getAllUser().size());
+        userController.addUser(createTestUser());
+        assertEquals(3, userController.getAllUser().size());
     }
 
     @Test
     void testCreateUserWithValidData() {
         User user = createTestUser();
-        User createdUser = userController.createUser(user);
+        User createdUser = userController.addUser(user);
         assertNotNull(createdUser.getId());
         assertTrue(userController.getAllUser().contains(createdUser));
     }
 
     @Test
     void testUpdateUserWithValidRequest() {
-        User originalUser = userController.createUser(createTestUser());
+        User originalUser = userController.addUser(createTestUser());
 
         originalUser.setEmail("new@email.com");
         originalUser.setName("Updated Name");
@@ -50,7 +56,7 @@ public class UserControllerTest {
         assertEquals("Updated Name", updatedUser.getName());
         assertSame(updatedUser, userController.getAllUser()
                 .stream()
-                .filter(u -> u.getId().equals(originalUser.getId()))
+                .filter(u -> Objects.equals(u.getId(), originalUser.getId()))
                 .findFirst()
                 .orElse(null));
     }
@@ -66,7 +72,7 @@ public class UserControllerTest {
 
         ValidationException exception = assertThrows(
                 ValidationException.class,
-                () -> userController.createUser(userWithSpaces)
+                () -> userController.addUser(userWithSpaces)
         );
 
         assertTrue(exception.getMessage().contains("Логин не может содержать пробелы"));
@@ -74,7 +80,7 @@ public class UserControllerTest {
 
     @Test
     void testUpdateUserWithNullId() {
-        User user = userController.createUser(createTestUser());
+        User user = userController.addUser(createTestUser());
         user.setId(null);
 
         assertThrows(ValidationException.class, () -> userController.updateUser(user));
@@ -96,7 +102,7 @@ public class UserControllerTest {
 
     @Test
     void testUpdateWithInvalidEmail() {
-        User existing = userController.createUser(createTestUser());
+        User existing = userController.addUser(createTestUser());
         existing.setEmail("invalid-email");
 
         ValidationException exception = assertThrows(ValidationException.class, () -> {

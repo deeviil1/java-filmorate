@@ -9,6 +9,7 @@ import lombok.NonNull;
 
 import java.time.LocalDate;
 
+
 @Data
 @Builder
 public class User {
@@ -25,8 +26,9 @@ public class User {
 
      private String name;
 
-
     @PastOrPresent
     private LocalDate birthday;
+
+
 
 }

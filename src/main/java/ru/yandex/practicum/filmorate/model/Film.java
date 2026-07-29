@@ -7,6 +7,7 @@ import ru.yandex.practicum.filmorate.validation.MinReleaseDate;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Film.
@@ -31,4 +32,8 @@ public class Film {
 
     @Positive
     private Integer duration;
+
+    private List<Genre> genre;
+
+    private Mpa mpa;
 }
